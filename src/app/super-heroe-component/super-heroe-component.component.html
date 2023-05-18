@@ -1,0 +1,77 @@
+<div class="main-container">
+
+  <div class="table-container">
+    <!-- Campo de búsqueda con autocompletado -->
+    <mat-form-field class="search-field">
+      <input type="text" placeholder="Buscar superhéroe" matInput [formControl]="control" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let opcion of opcionesFiltradas | async" [value]="opcion.nombreSuperheroe">
+          {{opcion.nombreSuperheroe}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!-- Tabla de superhéroes con varias columnas -->
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+       <!-- Columna vacía -->
+       <ng-container matColumnDef="foto">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element">
+          <img [src]="element.foto" alt="{{element.nombreSuperheroe}}" width="100" height="100" class="formatImg">
+        </td>
+      </ng-container>
+    
+      <!-- Columna de Super Héroe -->
+      <ng-container matColumnDef="superheroe">
+        <th mat-header-cell *matHeaderCellDef> Super Héroe </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombreSuperheroe}} </td>
+      </ng-container>
+    
+      <!-- Columna de Nombre -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      </ng-container>
+
+      <!-- Columna de Super Poder -->
+      <ng-container matColumnDef="superPoder">
+          <th mat-header-cell *matHeaderCellDef> Super Porder </th>
+          <td mat-cell *matCellDef="let element"> {{element.superPoder}} </td>
+        </ng-container>
+    
+      <!-- Columna de Empresa -->
+      <ng-container matColumnDef="empresa">
+        <th mat-header-cell *matHeaderCellDef> Empresa </th>
+        <td mat-cell *matCellDef="let element"> {{element.empresa}} </td>
+      </ng-container>
+
+      <!-- Columna de Acciones -->
+      <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="editarHeroe(element, $event)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="eliminarHeroe(element.id, $event)" color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+      <!-- Cabecera y filas de la tabla -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="verDetalle(row)" class="hover-row"></tr>
+    </table>
+
+    <!-- Pie de página con paginador y botón de añadir superhéroe -->
+    <div class="footer">
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      <button mat-raised-button class="add-button" (click)="anadirSuperHeroe()">Nuevo Héroe</button>
+    </div>
+
+    <!-- Indicador de carga -->
+    <div *ngIf="isLoading" class="overlay">
+      <mat-progress-spinner *ngIf="isLoading" class="loading" mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </div>
+</div>

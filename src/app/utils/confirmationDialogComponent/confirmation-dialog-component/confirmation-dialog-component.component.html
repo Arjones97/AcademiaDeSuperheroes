@@ -1,0 +1,16 @@
+<!-- Título del diálogo. -->
+<h1 mat-dialog-title>Confirmación</h1>
+
+<!-- Contenido del diálogo, que muestra el mensaje proporcionado en los datos del diálogo. -->
+<div mat-dialog-content>{{data.message}}</div>
+
+<!-- Acciones del diálogo, que consisten en dos botones. -->
+<div mat-dialog-actions>
+  <!-- Botón "No", que cierra el diálogo sin confirmación. -->
+  <button mat-button (click)="onNoClick()">No</button>
+
+  <!-- Botón "Sí", que cierra el diálogo con confirmación.
+       Su color cambia dependiendo de si se está editando o no.
+       Se enfoca automáticamente cuando se abre el diálogo. -->
+  <button mat-button [color]="!data.editando ? 'warn' : 'primary'" cdkFocusInitial (click)="onYesClick()">{{data.action}}</button>
+</div>

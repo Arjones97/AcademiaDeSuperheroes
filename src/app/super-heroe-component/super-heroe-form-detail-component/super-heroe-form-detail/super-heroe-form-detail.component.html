@@ -1,0 +1,142 @@
+<!-- Contenedor principal -->
+<div [class]="data && !data.editable ? 'form-onlyView' : 'form-detail'">
+  <!-- Cabecera que muestra el nombre del superhéroe según si se está editando o añadiendo -->
+  <h2 *ngIf="data && !data.editable">{{data.nombreSuperheroe}}</h2>
+  <h2 *ngIf="data && data.editable">Editando: {{data.nombreSuperheroe}}</h2>
+  <h2 *ngIf="!data">Añadir Nuevo Superhéroe</h2>
+
+  <!-- Detalles del superhéroe si no está en modo edición -->
+  <div *ngIf="data && !data.editable">
+    <p>Nombre: {{data.nombre}}</p>
+    <p>Edad: {{data.edad | default: 'No informado'}}</p>
+    <p>Ciudad de Nacimiento: {{data.ciudadNacimiento | default: 'No informado'}}</p>
+    <p>Super Poder: {{data.superPoder}}</p>
+    <p>Empresa: {{data.empresa}}</p>
+  </div>
+  <!-- ... -->
+  
+  <!-- Formulario de edición si los datos existen y están en modo editable -->
+  <ng-container *ngTemplateOutlet="data && data.editable ? editTemplate : null"></ng-container>
+  <ng-template #editTemplate>
+    <form>
+
+      <div class="form-row">
+        <mat-form-field>
+            <mat-label>Nombre de Super Héroe</mat-label>
+            <input matInput [(ngModel)]="data.nombreSuperheroe" name="nombreSuperheroe" appUppercase>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input matInput [(ngModel)]="data.nombre" name="nombre" appUppercase>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field>
+          <mat-label>Edad</mat-label>
+          <input type="number" matInput [(ngModel)]="data.edad" name="edad">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Ciudad de Nacimiento</mat-label>
+            <input matInput [(ngModel)]="data.ciudadNacimiento" name="ciudadNacimiento">
+          </mat-form-field>
+      </div>
+
+        <div class="form-row">
+          <mat-form-field>
+            <mat-label>Super Poder</mat-label>
+            <input matInput [(ngModel)]="data.superPoder" name="superPoder">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Empresa</mat-label>
+            <input matInput [(ngModel)]="data.empresa" name="empresa">
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field>
+            <mat-label>Url Foto</mat-label>
+            <input matInput [(ngModel)]="data.foto" name="foto">
+          </mat-form-field>
+        </div>
+
+      </form>
+  </ng-template>
+  <!-- ... -->
+  
+  <!-- Formulario para añadir un nuevo superhéroe si no existen datos -->
+  <ng-container *ngTemplateOutlet="!data ? addTemplate : null"></ng-container>
+  <ng-template #addTemplate>
+    <form [formGroup]="superHeroeForm" (ngSubmit)="aceptarEdicion()">
+
+        <mat-form-field>
+          <mat-label>Nombre de Super Héroe</mat-label>
+          <input matInput formControlName="nombreSuperheroe" name="nombreSuperheroe" appUppercase required>
+          <mat-error *ngIf="superHeroeForm.controls['nombreSuperheroe'].hasError('required')">
+            El nombre del superhéroe es obligatorio.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" name="nombre" appUppercase required>
+          <mat-error *ngIf="superHeroeForm.controls['nombre'].hasError('required')">
+            El nombre personal es obligatorio.
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Edad</mat-label>
+          <input matInput type="number" formControlName="edad" name="edad">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Ciudad de Nacimiento</mat-label>
+            <input matInput formControlName="ciudadNacimiento" name="ciudadNacimiento" appUppercase>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Super Poder</mat-label>
+            <input matInput formControlName="superPoder" name="superPoder" appUppercase required>
+            <mat-error *ngIf="superHeroeForm.controls['superPoder'].hasError('required')">
+              El super poder es obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Empresa</mat-label>
+            <input matInput formControlName="empresa" name="empresa" appUppercase required>
+            <mat-error *ngIf="superHeroeForm.controls['empresa'].hasError('required')">
+              La empresa es obligatoria.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Url Foto</mat-label>
+            <input matInput formControlName="foto" name="foto">
+          </mat-form-field>
+
+      </form>
+  </ng-template>
+  <!-- ... -->
+
+  <!-- Contenedor de botones -->
+  <div class="button-container">
+    <button mat-raised-button color="primary" *ngIf="data && data.editable" (click)="aceptarEdicion()">Editar</button>
+    <button mat-raised-button color="primary" *ngIf="!data" (click)="aceptarAnadir()">Añadir</button>
+  </div>
+  <!-- ... -->
+
+  <!-- Imagen del superhéroe -->
+  <img *ngIf="data" [src]="data.foto" alt="{{data.nombreSuperheroe}}" width="300" height="300" >
+  <!-- ... -->
+
+  <!-- Spinner de carga -->
+  <div *ngIf="isLoading" class="overlay">
+    <mat-progress-spinner *ngIf="isLoading" class="loading" mode="indeterminate"></mat-progress-spinner>
+  </div>
+  <!-- ... -->
+</div>

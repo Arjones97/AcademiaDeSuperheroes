@@ -1,0 +1,100 @@
+h2 {
+  text-align: center;
+  font-size: 1.5em;
+  color: #3f51b5;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+mat-form-field {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.button-container button {
+  margin-right: 20px;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+}
+
+.loading {
+  position: fixed;
+  z-index: 9999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0,0,0,0.3);
+  z-index: 9998;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  bottom: 0;
+}
+
+.form-detail{
+  min-width: 500px;
+  min-height: 700px;
+  padding: 20px;
+  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+.responsive-image {
+  max-width: 100%;
+  max-height: 30vh;
+  display: block;
+  margin: 0 auto;
+}
+
+.form-onlyView {
+  padding: 20px;
+  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+mat-form-field {
+    flex: 1 0 46%;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+mat-form-field:not(:last-child) {
+  margin-right: 8px;
+}
+
+
